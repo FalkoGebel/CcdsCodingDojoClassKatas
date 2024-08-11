@@ -56,7 +56,7 @@
         {
             int sleepTimeTotal = 0;
 
-            while (Count() == _size)
+            while (Count() == size)
             {
                 Thread.Sleep(_sleepStep);
                 sleepTimeTotal += _sleepStep;
