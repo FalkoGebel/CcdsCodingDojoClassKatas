@@ -129,49 +129,103 @@ namespace Tests
         private void WriteToSutTryEnqueue(BoundedQueue<int> sut)
         {
             Debug.WriteLine($"current count: {sut.Count()} -> Enqueue 1 to sut and sleep 1000");
-            sut.TryEnqueue(1, 500);
+            if (sut.TryEnqueue(1, 500))
+                Debug.WriteLine(" -> done");
+            else
+                Debug.WriteLine(" -> timed out");
             Thread.Sleep(1000);
             Debug.WriteLine($"current count: {sut.Count()} -> Enqueue 2 to sut and sleep 100");
-            sut.TryEnqueue(2, 500);
+            if (sut.TryEnqueue(2, 500))
+                Debug.WriteLine(" -> done");
+            else
+                Debug.WriteLine(" -> timed out");
             Thread.Sleep(100);
             Debug.WriteLine($"current count: {sut.Count()} -> Enqueue 3 to sut and sleep 100");
-            sut.TryEnqueue(3, 500);
+            if (sut.TryEnqueue(3, 500))
+                Debug.WriteLine(" -> done");
+            else
+                Debug.WriteLine(" -> timed out");
             Thread.Sleep(100);
             Debug.WriteLine($"current count: {sut.Count()} -> Enqueue 4 to sut and sleep 2000");
-            sut.TryEnqueue(4, 500);
+            if (sut.TryEnqueue(4, 500))
+                Debug.WriteLine(" -> done");
+            else
+                Debug.WriteLine(" -> timed out");
             Thread.Sleep(2000);
             Debug.WriteLine($"current count: {sut.Count()} -> Enqueue 5 to sut");
-            sut.TryEnqueue(5, 500);
+            if (sut.TryEnqueue(5, 500))
+                Debug.WriteLine(" -> done");
+            else
+                Debug.WriteLine(" -> timed out");
         }
 
         private void ReadFromSutTryDequeue(BoundedQueue<int> sut)
         {
             int number;
 
-            if (sut.TryDequeue(500, out number))
-                Debug.WriteLine($"Dequeue {number} from sut and sleep 1000");
-            else
-                Debug.WriteLine($"Dequeue timed out");
-            Thread.Sleep(1000);
-            if (sut.TryDequeue(500, out number))
-                Debug.WriteLine($"Dequeue {number} from sut and sleep 1000");
-            else
-                Debug.WriteLine($"Dequeue timed out");
-            Thread.Sleep(1000);
-            if (sut.TryDequeue(500, out number))
-                Debug.WriteLine($"Dequeue {number} from sut and sleep 100");
-            else
-                Debug.WriteLine($"Dequeue timed out");
-            Thread.Sleep(100);
-            if (sut.TryDequeue(500, out number))
-                Debug.WriteLine($"Dequeue {number} from sut and sleep 100");
-            else
-                Debug.WriteLine($"Dequeue timed out");
-            Thread.Sleep(100);
-            if (sut.TryDequeue(500, out number))
-                Debug.WriteLine($"Dequeue {number} from sut and sleep 100");
-            else
-                Debug.WriteLine($"Dequeue timed out");
+            try
+            {
+                if (sut.TryDequeue(500, out number))
+                    Debug.WriteLine($"Dequeue {number} from sut and sleep 1000");
+                else
+                    Debug.WriteLine($"Dequeue timed out");
+                Thread.Sleep(1000);
+            }
+            catch (InvalidOperationException e)
+            {
+                Debug.WriteLine(e.Message);
+            }
+
+            try
+            {
+                if (sut.TryDequeue(500, out number))
+                    Debug.WriteLine($"Dequeue {number} from sut and sleep 1000");
+                else
+                    Debug.WriteLine($"Dequeue timed out");
+                Thread.Sleep(1000);
+            }
+            catch (InvalidOperationException e)
+            {
+                Debug.WriteLine(e.Message);
+            }
+
+            try
+            {
+                if (sut.TryDequeue(500, out number))
+                    Debug.WriteLine($"Dequeue {number} from sut and sleep 100");
+                else
+                    Debug.WriteLine($"Dequeue timed out");
+                Thread.Sleep(100);
+            }
+            catch (InvalidOperationException e)
+            {
+                Debug.WriteLine(e.Message);
+            }
+
+            try
+            {
+                if (sut.TryDequeue(500, out number))
+                    Debug.WriteLine($"Dequeue {number} from sut and sleep 100");
+                else
+                    Debug.WriteLine($"Dequeue timed out");
+                Thread.Sleep(100);
+            }
+            catch (InvalidOperationException e)
+            {
+                Debug.WriteLine(e.Message);
+            }
+
+            try
+            {
+                if (sut.TryDequeue(500, out number))
+                    Debug.WriteLine($"Dequeue {number} from sut and sleep 100");
+                else
+                    Debug.WriteLine($"Dequeue timed out");
+            }
+            catch (InvalidOperationException e)
+            {
+                Debug.WriteLine(e.Message);
+            }
         }
     }
 }
