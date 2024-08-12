@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\01_BoundedQueue\01_BoundedQueue.csproj" />
+    <ProjectReference Include="..\02_Bowling\02_Bowling.csproj" />
   </ItemGroup>
 
   <ItemGroup>
