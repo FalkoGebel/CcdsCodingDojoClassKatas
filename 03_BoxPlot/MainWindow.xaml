@@ -1,0 +1,27 @@
+﻿<Window x:Class="_03_BoxPlot.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:_03_BoxPlot"
+        mc:Ignorable="d"
+        Title="Box Plot Demo" Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <TextBox x:Name="NewValueTextBox" Grid.Row="0" Grid.Column="0" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Padding="5,0"></TextBox>
+        <Button x:Name="AddValueButton" Grid.Row="0" Grid.Column="1" Content="Add Value" Click="AddValueButton_Click" />
+        <Button x:Name="ResetButton" Grid.Row="0" Grid.Column="2" Content="Reset" Click="ResetButton_Click" />
+        <Label Grid.Row="1" Grid.Column="0" Content="Current values" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+        <TextBox x:Name="CurrentValuesTextBox" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2"  HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Padding="5,0" IsReadOnly="True"></TextBox>
+        <local:BoxPlot x:Name="CurrentValuesBoxPlot" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3"/>
+    </Grid>
+</Window>

@@ -4,3 +4,4 @@ In this repository I am presenting my solutions for the class katas of the [Clea
 
 + 01: [Bounded Queue](https://ccd-school.de/en/coding-dojo/classes-katas/bounded-queue/ "Bounded Queue") -> [Done](/01_BoundedQueue/ "Project Folder")
 + 02: [Bowling](https://ccd-school.de/en/coding-dojo/classes-katas/bowling/ "Bowling") -> [Done](/02_Bowling/ "Project Folder")
++ 03: [Box Plot](https://ccd-school.de/en/coding-dojo/classes-katas/box-plot/ "Box Plot") -> work in progress
