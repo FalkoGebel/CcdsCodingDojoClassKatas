@@ -20,7 +20,6 @@
   <ItemGroup>
     <ProjectReference Include="..\01_BoundedQueue\01_BoundedQueue.csproj" />
     <ProjectReference Include="..\02_Bowling\02_Bowling.csproj" />
-    <ProjectReference Include="..\03_BoxPlot\03_BoxPlot.csproj" />
   </ItemGroup>
 
   <ItemGroup>

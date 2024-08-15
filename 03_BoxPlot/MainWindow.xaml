@@ -21,7 +21,7 @@
         <Button x:Name="AddValueButton" Grid.Row="0" Grid.Column="1" Content="Add Value" Click="AddValueButton_Click" />
         <Button x:Name="ResetButton" Grid.Row="0" Grid.Column="2" Content="Reset" Click="ResetButton_Click" />
         <Label Grid.Row="1" Grid.Column="0" Content="Current values" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-        <TextBox x:Name="CurrentValuesTextBox" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2"  HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Padding="5,0" IsReadOnly="True"></TextBox>
-        <local:BoxPlot x:Name="CurrentValuesBoxPlot" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3"/>
+        <TextBox x:Name="CurrentValuesTextBox" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Padding="5,0" IsReadOnly="True"></TextBox>
+        <local:BoxPlot x:Name="CurrentValuesBoxPlot" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Title="Box Plot Information"/>
     </Grid>
 </Window>
