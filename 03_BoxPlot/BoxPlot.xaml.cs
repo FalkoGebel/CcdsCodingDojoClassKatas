@@ -9,6 +9,8 @@ namespace _03_BoxPlot
     /// </summary>
     public partial class BoxPlot : UserControl
     {
+        public string? Title { get; set; }
+
         private List<int> _values = [];
 
         public BoxPlot()
@@ -25,6 +27,20 @@ namespace _03_BoxPlot
         private void UserControl_SizeChanged(object sender, System.Windows.SizeChangedEventArgs e)
         {
             UpdateWithoutValues();
+        }
+
+        private void DrawLine(SolidColorBrush color, double x1, double y1, double x2, double y2, double strokeThickness)
+        {
+            Line line = new()
+            {
+                Stroke = color,
+                X1 = x1,
+                Y1 = y1,
+                X2 = x2,
+                Y2 = y2,
+                StrokeThickness = strokeThickness
+            };
+            OutputCanvas.Children.Add(line);
         }
 
         private void UpdateWithoutValues()
@@ -45,192 +61,71 @@ namespace _03_BoxPlot
                 leftMargin = 20,
                 rightMargin = 20,
                 scaleRangeLineLength = 20,
+                scaleRangeMinWidth = 20,
                 boxHeight = 40,
                 range = max - min;
 
             double width = OutputCanvas.ActualWidth - leftMargin - rightMargin,
                    sideMargin = ((int)OutputCanvas.ActualWidth - width) / 2;
-            (double lowerQuartile, double median, double upperQuartile) = BoxPlotHelpers.GetMedianAndQuartiles([.. _values]);
+            (double lowerQuartile, double median, double upperQuartile) = GetMedianAndQuartiles([.. _values]);
             double lowerQuartileWidth = (lowerQuartile - min) / range * width,
                    medianWidth = (median - min) / range * width,
                    upperQuartileWidth = (upperQuartile - min) / range * width;
 
             // Add number line
-            Line line = new()
-            {
-                Stroke = Brushes.Black,
-                X1 = sideMargin,
-                Y1 = topMarginScaleLine,
-                X2 = sideMargin + width,
-                Y2 = topMarginScaleLine,
-                StrokeThickness = 1
-            };
-            OutputCanvas.Children.Add(line);
+            DrawLine(Brushes.LightSteelBlue, sideMargin, topMarginScaleLine, sideMargin + width, topMarginScaleLine, 1);
 
-            // Add minimum line and number
-            line = new()
-            {
-                Stroke = Brushes.Black,
-                X1 = sideMargin,
-                Y1 = topMarginScaleLine - scaleRangeLineLength / 2,
-                X2 = sideMargin,
-                Y2 = topMarginScaleLine + scaleRangeLineLength / 2,
-                StrokeThickness = 1
-            };
-            OutputCanvas.Children.Add(line);
+            // Add range lines
+            double scaleRangeValue = GetScaleRangeValue(width, scaleRangeMinWidth, min, max);
 
-            FormattedText text = new(min.ToString(), System.Globalization.CultureInfo.CurrentCulture, System.Windows.FlowDirection.LeftToRight, new Typeface("Consolas"), 10, Brushes.Black);
-            TextBlock textBlock = new()
-            {
-                Text = text.Text,
-                Foreground = Brushes.Black
-            };
-            double x = line.X2 - (text.Width / 2);
-            Canvas.SetLeft(textBlock, x);
-            Canvas.SetTop(textBlock, line.Y2 + 5);
-            OutputCanvas.Children.Add(textBlock);
+            List<double> rangeValues = [min];
 
-            // Add lower quartile line
-            if (lowerQuartile > double.MinValue)
+            if (scaleRangeValue <= 1)
             {
-                line = new()
-                {
-                    Stroke = Brushes.Black,
-                    X1 = sideMargin + lowerQuartileWidth,
-                    Y1 = topMarginScaleLine - scaleRangeLineLength / 2,
-                    X2 = sideMargin + lowerQuartileWidth,
-                    Y2 = topMarginScaleLine + scaleRangeLineLength / 2,
-                    StrokeThickness = 1
-                };
-                OutputCanvas.Children.Add(line);
+                for (double i = min + scaleRangeValue; i < max; i += scaleRangeValue)
+                    rangeValues.Add(i);
+            }
+            else
+            {
+                int start = (min + (int)scaleRangeValue) / (int)scaleRangeValue * (int)scaleRangeValue;
 
-                if (lowerQuartileWidth > 50)
-                {
-                    text = new(lowerQuartile.ToString("F2"), System.Globalization.CultureInfo.CurrentCulture, System.Windows.FlowDirection.LeftToRight, new Typeface("Consolas"), 10, Brushes.Black);
-                    textBlock = new()
-                    {
-                        Text = text.Text,
-                        Foreground = Brushes.Black
-                    };
-                    x = line.X2 - (text.Width / 2);
-                    Canvas.SetLeft(textBlock, x);
-                    Canvas.SetTop(textBlock, line.Y2 + 5);
-                    OutputCanvas.Children.Add(textBlock);
-                }
+                for (double i = start; i <= max - scaleRangeValue; i += scaleRangeValue)
+                    rangeValues.Add(i);
             }
 
-            // Add median line
-            line = new()
-            {
-                Stroke = Brushes.Black,
-                X1 = sideMargin + medianWidth,
-                Y1 = topMarginScaleLine - scaleRangeLineLength / 2,
-                X2 = sideMargin + medianWidth,
-                Y2 = topMarginScaleLine + scaleRangeLineLength / 2,
-                StrokeThickness = 1
-            };
-            OutputCanvas.Children.Add(line);
+            rangeValues.Add(max);
 
-            text = new(median.ToString("F2"), System.Globalization.CultureInfo.CurrentCulture, System.Windows.FlowDirection.LeftToRight, new Typeface("Consolas"), 10, Brushes.Black);
-            textBlock = new()
+            foreach (double i in rangeValues)
             {
-                Text = text.Text,
-                Foreground = Brushes.Black
-            };
-            x = line.X2 - (text.Width / 2);
-            Canvas.SetLeft(textBlock, x);
-            Canvas.SetTop(textBlock, line.Y2 + 5);
-            OutputCanvas.Children.Add(textBlock);
+                double scaleRangeWidth = (i - min) / range * width;
+                DrawLine(Brushes.LightSteelBlue, sideMargin + scaleRangeWidth, topMarginScaleLine - scaleRangeLineLength / 2, sideMargin + scaleRangeWidth, topMarginScaleLine + scaleRangeLineLength / 2, 1);
 
-            // Add upper quartile line
-            if (upperQuartile > double.MinValue)
-            {
-                line = new()
+                if (i % 1 == 0)
                 {
-                    Stroke = Brushes.Black,
-                    X1 = sideMargin + upperQuartileWidth,
-                    Y1 = topMarginScaleLine - scaleRangeLineLength / 2,
-                    X2 = sideMargin + upperQuartileWidth,
-                    Y2 = topMarginScaleLine + scaleRangeLineLength / 2,
-                    StrokeThickness = 1
-                };
-                OutputCanvas.Children.Add(line);
-
-                if (width - upperQuartileWidth > 50)
-                {
-                    text = new(upperQuartile.ToString("F2"), System.Globalization.CultureInfo.CurrentCulture, System.Windows.FlowDirection.LeftToRight, new Typeface("Consolas"), 10, Brushes.Black);
-                    textBlock = new()
+                    int v = (int)i;
+                    FormattedText loopText = new(v.ToString(), System.Globalization.CultureInfo.CurrentCulture, System.Windows.FlowDirection.LeftToRight, new Typeface("Consolas"), 10, Brushes.Black);
+                    TextBlock loopTextBlock = new()
                     {
-                        Text = text.Text,
+                        Text = loopText.Text,
                         Foreground = Brushes.Black
                     };
-                    x = line.X2 - (text.Width / 2);
-                    Canvas.SetLeft(textBlock, x);
-                    Canvas.SetTop(textBlock, line.Y2 + 5);
-                    OutputCanvas.Children.Add(textBlock);
+                    double loopX = sideMargin + scaleRangeWidth - (loopText.Width / 2);
+                    Canvas.SetLeft(loopTextBlock, loopX);
+                    Canvas.SetTop(loopTextBlock, topMarginScaleLine + scaleRangeLineLength / 2 + 5);
+                    OutputCanvas.Children.Add(loopTextBlock);
                 }
             }
-
-            // Add maximum line and number
-            line = new()
-            {
-                Stroke = Brushes.Black,
-                X1 = sideMargin + width,
-                Y1 = topMarginScaleLine - scaleRangeLineLength / 2,
-                X2 = sideMargin + width,
-                Y2 = topMarginScaleLine + scaleRangeLineLength / 2,
-                StrokeThickness = 1
-            };
-            OutputCanvas.Children.Add(line);
-
-            text = new(max.ToString(), System.Globalization.CultureInfo.CurrentCulture, System.Windows.FlowDirection.LeftToRight, new Typeface("Consolas"), 10, Brushes.Black);
-            textBlock = new()
-            {
-                Text = text.Text,
-                Foreground = Brushes.Black
-            };
-            x = line.X2 - (text.Width / 2);
-            Canvas.SetLeft(textBlock, x);
-            Canvas.SetTop(textBlock, line.Y2 + 5);
-            OutputCanvas.Children.Add(textBlock);
 
             // Add box line left end
-            line = new()
-            {
-                Stroke = Brushes.Black,
-                X1 = sideMargin,
-                Y1 = topMarginBox - boxHeight / 2,
-                X2 = sideMargin,
-                Y2 = topMarginBox + boxHeight / 2,
-                StrokeThickness = 2
-            };
-            OutputCanvas.Children.Add(line);
+            DrawLine(Brushes.Black, sideMargin, topMarginBox - boxHeight / 2, sideMargin, topMarginBox + boxHeight / 2, 2);
 
             // Add horizontial line left from box
             double addToX2 = lowerQuartile > double.MinValue ? lowerQuartileWidth : medianWidth;
-            line = new()
-            {
-                Stroke = Brushes.Black,
-                X1 = sideMargin,
-                Y1 = topMarginBox,
-                X2 = sideMargin + addToX2,
-                Y2 = topMarginBox,
-                StrokeThickness = 2
-            };
-            OutputCanvas.Children.Add(line);
+            DrawLine(Brushes.Black, sideMargin, topMarginBox, sideMargin + addToX2, topMarginBox, 2);
 
             // Add horizontial line right from box
             double addToX1 = upperQuartile > double.MinValue ? upperQuartileWidth : medianWidth;
-            line = new()
-            {
-                Stroke = Brushes.Black,
-                X1 = sideMargin + addToX1,
-                Y1 = topMarginBox,
-                X2 = sideMargin + width,
-                Y2 = topMarginBox,
-                StrokeThickness = 2
-            };
-            OutputCanvas.Children.Add(line);
+            DrawLine(Brushes.Black, sideMargin + addToX1, topMarginBox, sideMargin + width, topMarginBox, 2);
 
             // Add box
             Rectangle rectangle = new()
@@ -245,28 +140,65 @@ namespace _03_BoxPlot
             OutputCanvas.Children.Add(rectangle);
 
             // Add box line right end
-            line = new()
-            {
-                Stroke = Brushes.Black,
-                X1 = sideMargin + width,
-                Y1 = topMarginBox - boxHeight / 2,
-                X2 = sideMargin + width,
-                Y2 = topMarginBox + boxHeight / 2,
-                StrokeThickness = 2
-            };
-            OutputCanvas.Children.Add(line);
+            DrawLine(Brushes.Black, sideMargin + width, topMarginBox - boxHeight / 2, sideMargin + width, topMarginBox + boxHeight / 2, 2);
 
             // Add box line median
-            line = new()
+            DrawLine(Brushes.Blue, sideMargin + medianWidth, topMarginBox - boxHeight / 2, sideMargin + medianWidth, topMarginBox + boxHeight / 2, 2);
+        }
+        private static (double, double, double) GetMedianAndQuartiles(int[] sortedData)
+        {
+            double lowerQuartile = double.MinValue,
+                   median = double.MinValue,
+                   upperQuartile = double.MinValue;
+
+            if (sortedData.Length > 0)
             {
-                Stroke = Brushes.Blue,
-                X1 = sideMargin + medianWidth,
-                Y1 = topMarginBox - boxHeight / 2,
-                X2 = sideMargin + medianWidth,
-                Y2 = topMarginBox + boxHeight / 2,
-                StrokeThickness = 2
-            };
-            OutputCanvas.Children.Add(line);
+                median = GetMedian(sortedData);
+
+                if (sortedData.Length > 2)
+                {
+                    lowerQuartile = GetMedian(sortedData[0..(sortedData.Length / 2 - (sortedData.Length % 2 == 0 ? 1 : 0))]);
+                    upperQuartile = GetMedian(sortedData[(sortedData.Length / 2 + 1)..]);
+                }
+            }
+
+            return (lowerQuartile, median, upperQuartile);
+        }
+
+        private static double GetScaleRangeValue(double width, int minRangeWidth, int min, int max)
+        {
+            double scaleCandidate = 0.5;
+            int[] factors = [2, 5];
+            int factorIndex = -1,
+                maxNumberOfRanges = (int)width / minRangeWidth,
+                range = max - min;
+
+            while (true)
+            {
+                double numberOfRanges = range / scaleCandidate;
+
+                if (numberOfRanges <= maxNumberOfRanges)
+                    return scaleCandidate;
+
+                factorIndex = factorIndex + 1 == factors.Length ? 0 : factorIndex + 1;
+                scaleCandidate *= factors[factorIndex];
+            }
+        }
+        private static double GetMedian(int[] sortedData)
+        {
+            if (sortedData.Length == 0)
+                throw new ArgumentException("Invalid collection - sorted data must not be empty");
+
+            int idx = sortedData.Length / 2;
+            double output = sortedData[idx];
+
+            if (sortedData.Length % 2 == 0)
+            {
+                output += sortedData[idx - 1];
+                output /= 2;
+            }
+
+            return output;
         }
     }
 }
