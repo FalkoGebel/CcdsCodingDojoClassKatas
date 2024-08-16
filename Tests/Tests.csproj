@@ -21,6 +21,7 @@
     <ProjectReference Include="..\01_BoundedQueue\01_BoundedQueue.csproj" />
     <ProjectReference Include="..\02_Bowling\02_Bowling.csproj" />
     <ProjectReference Include="..\04_Hangman\04_Hangman.csproj" />
+    <ProjectReference Include="..\05_LinkedList\05_LinkedList.csproj" />
   </ItemGroup>
 
   <ItemGroup>
