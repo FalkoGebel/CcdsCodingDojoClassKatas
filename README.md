@@ -8,3 +8,4 @@ In this repository I am presenting my solutions for the class katas of the [Clea
 + 04: [Hangman](https://ccd-school.de/coding-dojo/class-katas/galgenmaennchen/ "Hangman") -> [Done](/04_Hangman/ "Project Folder")
 + 05: [Linked List](https://ccd-school.de/en/coding-dojo/classes-katas/linked-list/ "Linked List") -> [Done](/05__LinkedList/ "Project Folder")
 + 06: [Ordered Jobs](https://ccd-school.de/en/coding-dojo/classes-katas/ordered-jobs/ "Ordered Jobs") -> [Done](/06_OrderedJobs/ "Project Folder")
++ 07: [Priority Queue](https://ccd-school.de/en/coding-dojo/classes-katas/priority-queue/ "Priority Queue") -> [Done](/07_PriorityQueue/ "Project Folder")

@@ -23,6 +23,7 @@
     <ProjectReference Include="..\04_Hangman\04_Hangman.csproj" />
     <ProjectReference Include="..\05_LinkedList\05_LinkedList.csproj" />
     <ProjectReference Include="..\06_OrderedJobs\06_OrderedJobs.csproj" />
+    <ProjectReference Include="..\07_PriorityQueue\07_PriorityQueue.csproj" />
   </ItemGroup>
 
   <ItemGroup>
