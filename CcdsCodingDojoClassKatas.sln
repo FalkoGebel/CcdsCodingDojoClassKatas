@@ -22,6 +22,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "05_LinkedList", "05_LinkedL
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "06_OrderedJobs", "06_OrderedJobs\06_OrderedJobs.csproj", "{B8FF611C-1D29-4F94-A13E-212F75A2B1E5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "07_PriorityQueue", "07_PriorityQueue\07_PriorityQueue.csproj", "{3250D8EF-2990-4EA6-87DD-89508EAF5041}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -56,6 +58,10 @@ Global
 		{B8FF611C-1D29-4F94-A13E-212F75A2B1E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B8FF611C-1D29-4F94-A13E-212F75A2B1E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B8FF611C-1D29-4F94-A13E-212F75A2B1E5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3250D8EF-2990-4EA6-87DD-89508EAF5041}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3250D8EF-2990-4EA6-87DD-89508EAF5041}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3250D8EF-2990-4EA6-87DD-89508EAF5041}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3250D8EF-2990-4EA6-87DD-89508EAF5041}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
