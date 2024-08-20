@@ -25,6 +25,7 @@
     <ProjectReference Include="..\06_OrderedJobs\06_OrderedJobs.csproj" />
     <ProjectReference Include="..\07_PriorityQueue\07_PriorityQueue.csproj" />
     <ProjectReference Include="..\08_CircularBuffer\08_CircularBuffer.csproj" />
+    <ProjectReference Include="..\09_Stack\09_Stack.csproj" />
   </ItemGroup>
 
   <ItemGroup>
