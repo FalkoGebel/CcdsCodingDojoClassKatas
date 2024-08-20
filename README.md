@@ -10,3 +10,4 @@ In this repository I am presenting my solutions for the class katas of the [Clea
 + 06: [Ordered Jobs](https://ccd-school.de/en/coding-dojo/classes-katas/ordered-jobs/ "Ordered Jobs") -> [Done](/06_OrderedJobs/ "Project Folder")
 + 07: [Priority Queue](https://ccd-school.de/en/coding-dojo/classes-katas/priority-queue/ "Priority Queue") -> [Done](/07_PriorityQueue/ "Project Folder")
 + 08: [Circular Buffer](https://ccd-school.de/en/coding-dojo/classes-katas/circular-buffer/ "Circular Buffer") -> [Done](/08_CircularBuffer/ "Project Folder")
++ 09: [Stack](https://ccd-school.de/en/coding-dojo/classes-katas/stack/ "Stack") -> [Done](/09_Stack/ "Project Folder")
